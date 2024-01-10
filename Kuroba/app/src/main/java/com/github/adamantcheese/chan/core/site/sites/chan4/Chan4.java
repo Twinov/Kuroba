@@ -65,15 +65,13 @@ public class Chan4
         @SuppressWarnings("ConstantConditions")
         @Override
         public boolean respondsTo(@NonNull HttpUrl url) {
-            return url.topPrivateDomain().equalsIgnoreCase(b.topPrivateDomain()) || url
-                    .topPrivateDomain()
-                    .equalsIgnoreCase(bSafe.topPrivateDomain());
+            return url.topPrivateDomain().equalsIgnoreCase(b.topPrivateDomain());
         }
 
         @Override
         public String desktopUrl(Loadable loadable, int postNo) {
             if (loadable.isThreadMode()) {
-                String url = (loadable.board.workSafe ? bSafe : b)
+                String url = (b)
                         .newBuilder()
                         .addPathSegment(loadable.boardCode)
                         .addPathSegment("thread")
@@ -85,7 +83,7 @@ public class Chan4
                 }
                 return url;
             } else {
-                return (loadable.board.workSafe ? bSafe : b)
+                return (b)
                         .newBuilder()
                         .addPathSegment(loadable.boardCode)
                         .build()
@@ -145,9 +143,7 @@ public class Chan4
     private final HttpUrl t = new HttpUrl.Builder().scheme("https").host("i.4cdn.org").build();
     private final HttpUrl s = new HttpUrl.Builder().scheme("https").host("s.4cdn.org").build();
     private final HttpUrl sys = new HttpUrl.Builder().scheme("https").host("sys.4chan.org").build();
-    private final HttpUrl sysSafe = new HttpUrl.Builder().scheme("https").host("sys.4channel.org").build();
     private static final HttpUrl b = new HttpUrl.Builder().scheme("https").host("boards.4chan.org").build();
-    private static final HttpUrl bSafe = new HttpUrl.Builder().scheme("https").host("boards.4channel.org").build();
 
     private final SiteEndpoints endpoints = new SiteEndpoints() {
         @Override
@@ -277,7 +273,7 @@ public class Chan4
 
         @Override
         public HttpUrl archive(Board board) {
-            return (board.workSafe ? bSafe : b)
+            return (b)
                     .newBuilder()
                     .addPathSegment(board.code)
                     .addPathSegment("archive")
@@ -286,7 +282,7 @@ public class Chan4
 
         @Override
         public HttpUrl reply(Loadable loadable) {
-            return (loadable.board.workSafe ? sysSafe : sys)
+            return (sys)
                     .newBuilder()
                     .addPathSegment(loadable.boardCode)
                     .addPathSegment("post")
@@ -295,7 +291,7 @@ public class Chan4
 
         @Override
         public HttpUrl delete(Post post) {
-            return (post.board.workSafe ? sysSafe : sys)
+            return (sys)
                     .newBuilder()
                     .addPathSegment(post.board.code)
                     .addPathSegment("imgboard.php")
@@ -304,7 +300,7 @@ public class Chan4
 
         @Override
         public HttpUrl report(Post post) {
-            return (post.board.workSafe ? sysSafe : sys)
+            return (sys)
                     .newBuilder()
                     .addPathSegment(post.board.code)
                     .addPathSegment("imgboard.php")
@@ -381,8 +377,7 @@ public class Chan4
                         if (StringUtils.isAnyIgnoreCase(c.name(), "pass_id", "pass_enabled")) {
                             List<Cookie> out = new ArrayList<>();
                             Collections.addAll(out,
-                                    NetUtils.changeCookieDomain(c, sys.topPrivateDomain()),
-                                    NetUtils.changeCookieDomain(c, sysSafe.topPrivateDomain())
+                                    NetUtils.changeCookieDomain(c, sys.topPrivateDomain())
                             );
                             return out;
                         } else {
@@ -411,7 +406,7 @@ public class Chan4
                     case V2NOJS:
                         return SiteAuthentication.fromCaptcha2nojs(CAPTCHA_KEY, b.toString());
                     case CHAN4_CUSTOM:
-                        HttpUrl.Builder urlBuilder = (loadableWithDraft.board.workSafe ? sysSafe : sys)
+                        HttpUrl.Builder urlBuilder = (sys)
                                 .newBuilder()
                                 .addPathSegment("captcha")
                                 .addQueryParameter("board", loadableWithDraft.board.code);
@@ -450,11 +445,6 @@ public class Chan4
                                     .changeCookieDomain(c, sys.topPrivateDomain())
                                     .newBuilder()
                                     .expiresAt(Long.MAX_VALUE)
-                                    .build(),
-                            NetUtils
-                                    .changeCookieDomain(c, sysSafe.topPrivateDomain())
-                                    .newBuilder()
-                                    .expiresAt(Long.MAX_VALUE)
                                     .build()
                     );
                     return out;
@@ -475,8 +465,7 @@ public class Chan4
                         if (StringUtils.isAnyIgnoreCase(c.name(), "pass_id", "pass_enabled")) {
                             List<Cookie> out = new ArrayList<>();
                             Collections.addAll(out,
-                                    NetUtils.changeCookieDomain(c, sys.topPrivateDomain()),
-                                    NetUtils.changeCookieDomain(c, sysSafe.topPrivateDomain())
+                                    NetUtils.changeCookieDomain(c, sys.topPrivateDomain())
                             );
                             return out;
                         } else {
@@ -488,11 +477,6 @@ public class Chan4
 
         @Override
         public boolean isLoggedIn() {
-            for (Cookie cookie : NetUtils.applicationClient.cookieJar().loadForRequest(sysSafe)) {
-                if (cookie.name().equals("pass_id") && !cookie.value().isEmpty()) {
-                    return true;
-                }
-            }
             for (Cookie cookie : NetUtils.applicationClient.cookieJar().loadForRequest(sys)) {
                 if (cookie.name().equals("pass_id") && !cookie.value().isEmpty()) {
                     return true;
@@ -510,18 +494,14 @@ public class Chan4
         public List<Cookie> getCookies() {
             List<Cookie> ret = new ArrayList<>();
             ret.addAll(NetUtils.applicationClient.cookieJar().loadForRequest(sys));
-            ret.addAll(NetUtils.applicationClient.cookieJar().loadForRequest(sysSafe));
             ret.addAll(NetUtils.applicationClient.cookieJar().loadForRequest(b));
-            ret.addAll(NetUtils.applicationClient.cookieJar().loadForRequest(bSafe));
             return ret;
         }
 
         @Override
         public void clearCookies() {
             NetUtils.clearAllCookies(sys);
-            NetUtils.clearAllCookies(sysSafe);
             NetUtils.clearAllCookies(b);
-            NetUtils.clearAllCookies(bSafe);
         }
     };
 
@@ -540,9 +520,7 @@ public class Chan4
         passPass = new StringSetting(p, "preference_pass_pin", "");
         icon().get(icon -> {});
         loadWebviewCookies(sys);
-        loadWebviewCookies(sysSafe);
         loadWebviewCookies(b);
-        loadWebviewCookies(bSafe);
     }
 
     @Override
