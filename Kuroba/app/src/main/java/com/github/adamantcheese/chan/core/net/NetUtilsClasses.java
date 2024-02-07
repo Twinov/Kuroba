@@ -374,6 +374,7 @@ public class NetUtilsClasses {
                     .request(request)
                     .body(new EmptyResponseBody())
                     .protocol(Protocol.HTTP_1_1)
+                    .message("Canceled")
                     .build();
             executed = true;
             return new Response.Builder()
