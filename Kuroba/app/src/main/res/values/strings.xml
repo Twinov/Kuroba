@@ -231,6 +231,7 @@ Actions do the following:<br>
 <b>Watch:</b> If you have the thread watcher enabled and background watching on, catalogs will be periodically checked
 based on your interval setting and any OP that matches the filter will be put into your bookmarks. Any catalogs loaded
 by the you navigating to them from the board select popup will also be checked.<br>
+<b>Prioritize:</b> Prioritize the post when sorting the board index and force it to be before non-prioritized posts.<br>
 <br>
 Enabled filters have priority from top to bottom in your list. Filter precedence for actions is as follows:<br>
 1) Capcode or sticky<br>

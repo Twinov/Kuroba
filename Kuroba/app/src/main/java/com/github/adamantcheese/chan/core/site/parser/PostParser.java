@@ -227,19 +227,23 @@ public class PostParser {
                                 false,
                                 false,
                                 false,
+                                false,
                                 f.applyToReplies,
                                 f.onlyOnOP,
                                 f.applyToSaved
                         );
                         break;
                     case HIDE:
-                        post.filter(new int[]{0}, true, false, false, f.applyToReplies, f.onlyOnOP, false);
+                        post.filter(new int[]{0}, true, false, false, false, f.applyToReplies, f.onlyOnOP, false);
                         break;
                     case REMOVE:
-                        post.filter(new int[]{0}, false, true, false, f.applyToReplies, f.onlyOnOP, false);
+                        post.filter(new int[]{0}, false, true, false, false, f.applyToReplies, f.onlyOnOP, false);
                         break;
                     case WATCH:
-                        post.filter(new int[]{0}, false, false, true, false, true, false);
+                        post.filter(new int[]{0}, false, false, true, false, false, true, false);
+                        break;
+                    case PRIORITIZE:
+                        post.filter(new int[]{0}, false, false, false, true, false, true, false);
                         break;
                 }
             }

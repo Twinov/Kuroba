@@ -78,6 +78,8 @@ public class Post
 
     public final boolean filterWatch;
 
+    public final boolean filterPrioritize;
+
     public final boolean filterReplies;
 
     public final boolean filterOnlyOP;
@@ -151,6 +153,7 @@ public class Post
         filterStub = builder.filterStub;
         filterRemove = builder.filterRemove;
         filterWatch = builder.filterWatch;
+        filterPrioritize = builder.filterPrioritize;
         filterReplies = builder.filterReplies;
         filterOnlyOP = builder.filterOnlyOP;
         filterSaved = builder.filterSaved;
@@ -198,6 +201,7 @@ public class Post
                 && filterStub == post.filterStub
                 && filterRemove == post.filterRemove
                 && filterWatch == post.filterWatch
+                && filterPrioritize == post.filterPrioritize
                 && filterReplies == post.filterReplies
                 && filterOnlyOP == post.filterOnlyOP
                 && filterSaved == post.filterSaved
@@ -244,6 +248,7 @@ public class Post
                 filterStub,
                 filterRemove,
                 filterWatch,
+                filterPrioritize,
                 filterReplies,
                 filterOnlyOP,
                 filterSaved,
@@ -302,6 +307,7 @@ public class Post
                         filterStub,
                         filterRemove,
                         filterWatch,
+                        filterPrioritize,
                         filterReplies,
                         filterOnlyOP,
                         filterSaved
@@ -385,6 +391,7 @@ public class Post
         public boolean filterStub;
         public boolean filterRemove;
         public boolean filterWatch;
+        public boolean filterPrioritize;
         public boolean filterReplies;
         public boolean filterOnlyOP;
         public boolean filterSaved;
@@ -546,6 +553,7 @@ public class Post
                 boolean stub,
                 boolean remove,
                 boolean watch,
+                boolean prioritize,
                 boolean filterReplies,
                 boolean onlyOnOp,
                 boolean filterSaved
@@ -554,6 +562,7 @@ public class Post
             filterStub = filterStub | stub;
             filterRemove = filterRemove | remove;
             filterWatch = filterWatch | watch;
+            filterPrioritize = filterPrioritize | prioritize;
             this.filterReplies = this.filterReplies | filterReplies;
             filterOnlyOP = filterOnlyOP | onlyOnOp;
             this.filterSaved = this.filterSaved | filterSaved;
@@ -621,6 +630,7 @@ public class Post
                             filterStub,
                             filterRemove,
                             filterWatch,
+                            filterPrioritize,
                             filterReplies,
                             filterOnlyOP,
                             filterSaved

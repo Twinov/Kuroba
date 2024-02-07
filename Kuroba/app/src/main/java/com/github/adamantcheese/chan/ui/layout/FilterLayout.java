@@ -18,6 +18,7 @@ package com.github.adamantcheese.chan.ui.layout;
 
 import static com.github.adamantcheese.chan.Chan.inject;
 import static com.github.adamantcheese.chan.core.manager.FilterEngine.FilterAction.COLOR;
+import static com.github.adamantcheese.chan.core.manager.FilterEngine.FilterAction.PRIORITIZE;
 import static com.github.adamantcheese.chan.core.manager.FilterEngine.FilterAction.WATCH;
 import static com.github.adamantcheese.chan.ui.widget.DefaultAlertDialog.getDefaultAlertBuilder;
 import static com.github.adamantcheese.chan.utils.AndroidUtils.*;
@@ -386,7 +387,7 @@ public class FilterLayout
             filter.color = 0xffff0000;
         }
         colorPreview.setBackgroundColor(filter.color);
-        if (filter.action != WATCH.ordinal()) {
+        if (filter.action != WATCH.ordinal() && filter.action != PRIORITIZE.ordinal()) {
             applyToReplies.setEnabled(true);
             onlyOnOP.setEnabled(true);
             onlyOnOP.setChecked(false);

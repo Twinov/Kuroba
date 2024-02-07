@@ -48,7 +48,8 @@ public class FilterEngine {
         HIDE,
         COLOR,
         REMOVE,
-        WATCH;
+        WATCH,
+        PRIORITIZE;
 
         public static String actionName(FilterAction action) {
             return StringUtils.caseAndSpace(action.name() + " post", null, true);

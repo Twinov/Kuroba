@@ -67,6 +67,7 @@ public class DatabaseHideManager {
                                 true,
                                 false,
                                 false,
+                                false,
                                 hiddenPost.hideRepliesToThisPost,
                                 false
                         );
@@ -203,6 +204,7 @@ public class DatabaseHideManager {
                         parentPost.filterStub,
                         parentPost.filterRemove,
                         parentPost.filterWatch,
+                        parentPost.filterPrioritize,
                         true,
                         parentPost.filterSaved
                 );
@@ -222,6 +224,7 @@ public class DatabaseHideManager {
             boolean filterStub,
             boolean filterRemove,
             boolean filterWatch,
+            boolean filterPrioritize,
             boolean filterReplies,
             boolean filterSaved
     ) {
@@ -250,6 +253,7 @@ public class DatabaseHideManager {
                         filterStub,
                         filterRemove,
                         filterWatch,
+                        filterPrioritize,
                         filterReplies,
                         false,
                         filterSaved

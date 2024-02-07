@@ -84,6 +84,21 @@ public class PostsFilter {
         // Process order
         Collections.sort(posts, postsOrder.postComparator);
 
+        // Partition posts into posts to sort with priority and normal posts and then rebuild
+        List<Post> postsToSortToTop = new ArrayList<>();
+        List<Post> postsNotToSortToTop = new ArrayList<>();
+
+        for (Post post : posts) {
+            if (post.filterPrioritize) {
+                postsToSortToTop.add(post);
+            } else {
+                postsNotToSortToTop.add(post);
+            }
+        }
+        posts.clear();
+        posts.addAll(postsToSortToTop);
+        posts.addAll(postsNotToSortToTop);
+
         // Process search
         if (!TextUtils.isEmpty(query)) {
             boolean add;
