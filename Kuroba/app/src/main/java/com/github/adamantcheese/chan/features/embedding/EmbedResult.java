@@ -25,17 +25,29 @@ public class EmbedResult {
      */
     public List<PostImage> extraImages = new ArrayList<>();
 
+    /**
+     * An optional target link to use instead of the one in the post if provided.
+     */
+    public String customLink = null;
+
     @SuppressWarnings("unused")
     private EmbedResult() {} // for gson, don't use otherwise
 
     public EmbedResult(
             @NonNull String title, @Nullable String duration, @Nullable PostImage extraImage
     ) {
+        this(title, duration, extraImage, null);
+    }
+
+    public EmbedResult(
+            @NonNull String title, @Nullable String duration, @Nullable PostImage extraImage, @Nullable String customLink
+    ) {
         this.title = title;
         this.duration = duration;
         if (extraImage != null) {
             this.extraImages.add(extraImage);
         }
+        this.customLink = customLink;
     }
 
     public EmbedResult(

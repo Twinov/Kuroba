@@ -360,7 +360,7 @@ public class EmbeddingEngine
                         sp(ChanSettings.fontSize.get())
                 );
 
-                EmbedderLinkLinkable pl = new EmbedderLinkLinkable(theme, URL);
+                EmbedderLinkLinkable pl = new EmbedderLinkLinkable(theme, parseResult.customLink != null ? parseResult.customLink : URL);
                 return span(replacement, pl);
             }, true);
         }

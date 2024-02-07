@@ -109,7 +109,8 @@ public class DlsiteEmbedder
                             .filename(imageFilename)
                             .extension(fileExtension)
                             .isInlined()
-                            .build()
+                            .build(),
+                    "https://www.dlsite.com/maniax-touch/work/=/product_id/" + serverFilename
             );
         };
     }
