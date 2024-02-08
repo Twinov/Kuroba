@@ -135,6 +135,7 @@ public class ViewThreadController
                         () -> threadLayout.getPresenter().showRemovedPostsDialog()
                 )
                 .withSubItem(R.string.view_my_posts, this::showYourPosts)
+                .withSubItem(R.string.view_colored_posts, this::showColoredPosts)
                 .withSubItem(R.string.action_sort, () -> handleSorting(null))
                 .withSubItem(R.string.action_open_browser, () -> handleShareAndOpenInBrowser(false))
                 .withSubItem(R.string.action_share, () -> handleShareAndOpenInBrowser(true))
@@ -180,6 +181,20 @@ public class ViewThreadController
             showToast(context, R.string.no_saved_posts_for_current_thread);
         } else {
             threadLayout.showPostsPopup(null, yourPosts);
+        }
+    }
+
+    public void showColoredPosts() {
+        if (!threadLayout.getPresenter().isBound() || threadLayout.getPresenter().getChanThread() == null) return;
+        List<Post> coloredPosts = new ArrayList<>();
+        for (Post post : threadLayout.getPresenter().getChanThread().getPosts()) {
+            if (post.filterHighlightedColors.length > 0) coloredPosts.add(post);
+        }
+
+        if (coloredPosts.isEmpty()) {
+            showToast(context, R.string.no_saved_posts_for_current_thread);
+        } else {
+            threadLayout.showPostsPopup(null, coloredPosts);
         }
     }
 
